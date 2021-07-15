@@ -1,3 +1,5 @@
+const { institutionStatus } = use('App/Models/Enums/Institution');
+
 class CreateInstitutionUseCase {
   // Injeta dependências no construtor
   static get inject() {
@@ -9,8 +11,14 @@ class CreateInstitutionUseCase {
     this.institutionModel = institutionModel;
   }
 
-  async execute() {
-    throw new Error('Use case not implemented');
+  async execute(institutionData) {
+    const institution = await this.institutionModel.create(
+      { ...institutionData, status: institutionStatus.underReview },
+    );
+
+    // TODO Criar notificação de criação de instituicao
+
+    return institution;
   }
 }
 
