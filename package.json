@@ -6,7 +6,11 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node ace test"
+    "dev": "ENV_PATH=.env.dev adonis serve --dev --debug",
+    "staging": "ENV_PATH=.env adonis serve --dev --debug",
+    "migration:run-dev": "ENV_PATH=.env.dev adonis migration:run",
+    "migration:rollback-dev": "ENV_PATH=.env.dev adonis migration:rollback",
+    "migration:refresh-dev": "ENV_PATH=.env.dev adonis migration:rollback"
   },
   "keywords": [
     "adonisjs",
@@ -24,7 +28,9 @@
     "@adonisjs/framework": "^5.0.9",
     "@adonisjs/ignitor": "^2.0.8",
     "@adonisjs/lucid": "^6.1.3",
-    "@adonisjs/validator": "^5.1.0"
+    "@adonisjs/validator": "^5.1.0",
+    "cpf-cnpj-validator": "^1.0.3",
+    "pg": "^8.6.0"
   },
   "devDependencies": {
     "eslint": "^7.30.0",
