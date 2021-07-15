@@ -5,6 +5,8 @@ class InstitutionRoutes extends BaseRoutes {
     router
       .post('/institutions', `${this.controllersPath}/Institution/CreateInstitutionController.handle`)
       .validator('Institution/CreateInstitutionValidator');
+
+    router.get('/institutions/:id', `${this.controllersPath}/Institution/GetInstitutionController.handle`);        
   }
 }
 
