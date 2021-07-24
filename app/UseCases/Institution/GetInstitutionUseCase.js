@@ -1,4 +1,4 @@
-const NotFoundException = use('App/Exceptions/NotFoundException')
+const NotFoundException = use('App/Exceptions/NotFoundException');
 
 class GetInstitutionUseCase {
   // Injeta dependências no construtor
@@ -14,11 +14,11 @@ class GetInstitutionUseCase {
   async execute(institutionId) {
     const institution = await this.institutionModel.find(institutionId);
 
-    if(!institution) {
-        return {success: false, data: new NotFoundException("Instituição não encontrada")};
+    if (!institution) {
+      return { success: false, data: new NotFoundException('Instituição não encontrada') };
     }
 
-    return {success: true, data: institution};
+    return { success: true, data: institution };
   }
 }
 
