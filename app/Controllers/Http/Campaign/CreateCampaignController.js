@@ -2,7 +2,7 @@ const BaseController = use('App/Controllers/Http/BaseController');
 
 const CreateCampaignRequestModel = use('App/Controllers/RequestModels/Campaign/CreateCampaignRequestModel');
 
-const { created } = use('App/Controllers/Http/HttpResponses');
+const { created, badRequest } = use('App/Controllers/Http/HttpResponses');
 
 class CreateCampaignController extends BaseController {
   static get inject() {
@@ -19,8 +19,11 @@ class CreateCampaignController extends BaseController {
     const campaignData = new CreateCampaignRequestModel(request);
 
     const result = await this.useCase.execute(campaignData);
+    if (result.success) {
+      return created(result);
+    }
 
-    return created(result);
+    return badRequest(result.data);
   }
 }
 
