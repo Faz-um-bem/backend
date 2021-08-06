@@ -11,7 +11,7 @@ class CreateCampaignRequestModel {
     this.city = createCampaignRequestData.city;
     this.address_latitude = createCampaignRequestData.address_latitude;
     this.address_longitude = createCampaignRequestData.address_longitude;
-    this.referred_institution = createCampaignRequestData.referred_institution;
+    this.referred_institution = createCampaignRequestData.id;
   }
 }
 
