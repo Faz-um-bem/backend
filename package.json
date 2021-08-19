@@ -10,7 +10,7 @@
     "staging": "ENV_PATH=.env adonis serve --dev --debug",
     "migration:run-dev": "ENV_PATH=.env.dev adonis migration:run",
     "migration:rollback-dev": "ENV_PATH=.env.dev adonis migration:rollback",
-    "migration:refresh-dev": "ENV_PATH=.env.dev adonis migration:rollback"
+    "migration:refresh-dev": "ENV_PATH=.env.dev adonis migration:refresh"
   },
   "keywords": [
     "adonisjs",
