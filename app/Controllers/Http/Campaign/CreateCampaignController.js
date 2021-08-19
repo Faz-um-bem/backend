@@ -19,7 +19,7 @@ class CreateCampaignController extends BaseController {
     const campaignData = new CreateCampaignRequestModel(request);
 
     const result = await this.useCase.execute(campaignData);
-    if (result.success) {
+    if (result) {
       return created(result);
     }
 

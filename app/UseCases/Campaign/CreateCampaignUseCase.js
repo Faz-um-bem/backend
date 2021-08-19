@@ -8,22 +8,21 @@ const NotFoundException = use('App/Exceptions/NotFoundException');
 class CreateCampaignUseCase {
   // Injeta dependências no construtor
   static get inject() {
-    return ['App/Models/Campaign', 
-      'App/Models/Institution', 
-      'App/Models/CampaignEventsLog', 
+    return ['App/Models/Campaign',
+      'App/Models/Institution',
+      'App/Models/CampaignEventsLog',
       'App/Models/Shared/UnitOfWork'];
   }
 
   // Recebe dependências declaradas no inject
   constructor(campaignModel, institutionModel, campaignEventsLogModel, uow) {
     this.campaignModel = campaignModel;
-    this.campaignEventsLogModel = campaignEventsLogModel;
     this.institutionModel = institutionModel;
+    this.campaignEventsLogModel = campaignEventsLogModel;
     this.uow = uow;
   }
 
   async execute(campaignData) {
-    
     // Verifica se a instituição onde a campanha será criada existe
     const institution = await this.institutionModel.find(campaignData.institution_id);
     if (!institution) {
@@ -38,17 +37,17 @@ class CreateCampaignUseCase {
     // Inicia a transaction que gerencia a criação de campanha
     try {
       await this.uow.startTransaction();
-      
+
       const campaign = await this.campaignModel.create(
         {
-          ...campaignData, 
+          ...campaignData,
           status: campaignStatus.underReview,
-          slug
+          slug,
         },
         this.uow.transaction,
       );
 
-      await this.uow.campaignEventsLogModel.create(
+      await this.campaignEventsLogModel.create(
         {
           event_type: eventLogTypes.create,
           data: campaign.toJSON(),
@@ -56,12 +55,12 @@ class CreateCampaignUseCase {
         },
         this.uow.transaction,
       );
-      await this.uow.commitTransction();
+      await this.uow.commitTransaction();
 
       return campaign;
     } catch (error) {
       await this.uow.rollbackTransaction();
-      
+
       throw error;
     }
   }
