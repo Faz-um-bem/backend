@@ -2,11 +2,16 @@ const { campaignStatus } = use('App/Models/Enums/Campaign');
 
 const { eventLogTypes } = use('App/Models/Enums/EventsLogs');
 
+const slugify = require('slugify');
+
 const NotFoundException = use('App/Exceptions/NotFoundException');
 class CreateCampaignUseCase {
   // Injeta dependências no construtor
   static get inject() {
-    return ['App/Models/Campaign', 'App/Models/Institution', 'App/Models/CampaignEventsLog', 'App/Models/Shared/UnitOfWork'];
+    return ['App/Models/Campaign', 
+      'App/Models/Institution', 
+      'App/Models/CampaignEventsLog', 
+      'App/Models/Shared/UnitOfWork'];
   }
 
   // Recebe dependências declaradas no inject
@@ -25,6 +30,11 @@ class CreateCampaignUseCase {
       return { success: false, data: new NotFoundException('Instituição não existente') };
     }
 
+    const slug = slugify(`${campaignData.title} ${institution.name}`, {
+      replacement: '-',
+      lower: true,
+    });
+
     // Inicia a transaction que gerencia a criação de campanha
     try {
       await this.uow.startTransaction();
@@ -32,7 +42,8 @@ class CreateCampaignUseCase {
       const campaign = await this.campaignModel.create(
         {
           ...campaignData, 
-          status: campaignStatus.underReview
+          status: campaignStatus.underReview,
+          slug
         },
         this.uow.transaction,
       );
@@ -41,7 +52,7 @@ class CreateCampaignUseCase {
         {
           event_type: eventLogTypes.create,
           data: campaign.toJSON(),
-          campaign_id: campaign.campaign_id,
+          campaign_id: campaign.id,
         },
         this.uow.transaction,
       );

@@ -23,6 +23,8 @@ class CampaignSchema extends Schema {
         .notNullable()
         .references('id')
         .inTable('institutions');
+      
+      table.string('slug').notNullable();
 
       table.timestamps();
     });

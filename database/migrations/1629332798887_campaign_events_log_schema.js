@@ -19,7 +19,7 @@ class CampaignEventsLogSchema extends Schema {
         .inTable('campaigns');
 
 
-      table.timestamps()
+      table.timestamps();
     })
   }
 
