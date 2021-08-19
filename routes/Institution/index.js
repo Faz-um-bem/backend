@@ -9,7 +9,7 @@ class InstitutionRoutes extends BaseRoutes {
     router.get('/institutions/:id', `${this.controllersPath}/Institution/GetInstitutionController.handle`);
 
     router
-      .post('/institutions/login', `${this.controllersPath}/Institution/LoginController.handle`);
+      .post('/institutions/login', `${this.controllersPath}/Institution/LoginController.handle`).validator('Institution/LoginValidator');
   }
 }
 
