@@ -33,8 +33,13 @@ class UpdateInstitutionUseCase {
     });
 
     const institutionEmail = await this.institutionModel.findBy('email', institutionData.email);
-    if (institutionEmail && Number(institutionData.id) !== institutionEmail) {
+    if (institutionEmail && Number(institutionData.id) !== institutionEmail.id) {
       return { success: false, data: new BusinessException('Email já registrado') };
+    }
+
+    const institutionCNPJ = await this.institutionModel.findBy('cnpj', institutionData.cnpj);
+    if (institutionCNPJ && Number(institutionData.id) !== institutionCNPJ.id) {
+      return { success: false, data: new BusinessException('CNPJ já registrado') };
     }
 
     try {

@@ -3,10 +3,11 @@ const BaseValidator = require('../BaseValidator');
 class UpdateInstitutionValidator extends BaseValidator {
   get rules() {
     return {
-      email: 'required|email|string|unique:institutions',
+      email: 'required|email|string',
       password: 'min:6|confirmed|string',
+      name: 'required|string',
       corporate_name: 'required|string',
-      cnpj: 'required|length:14|string|cnpj|unique:institutions',
+      cnpj: 'required|length:14|string|cnpj',
       description: 'required|string',
       address: 'required|string',
       address_number: 'required|string',
@@ -31,6 +32,8 @@ class UpdateInstitutionValidator extends BaseValidator {
 
       'password.min': 'Senha precisa ter no mínimo {{argument.0}} caractéres',
       'password.confirmed': 'Senha e confirmação de senha não são iguais',
+
+      'name.required': 'Nome é obrigatório',
 
       'corporate_name.required': 'Razão social é obrigatória',
 
