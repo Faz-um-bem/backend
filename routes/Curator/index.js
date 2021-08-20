@@ -11,6 +11,9 @@ class CuratorRoutes extends BaseRoutes {
       .get('/curators', `${this.controllersPath}/Curator/ListCuratorController.handle`);
     router
       .delete('/curators/:id', `${this.controllersPath}/Curator/DeleteCuratorController.handle`);
+    router
+      .put('/curators/:id', `${this.controllersPath}/Curator/UpdateCuratorController.handle`)
+      .validator('Curator/UpdateCuratorValidator');
   }
 }
 
