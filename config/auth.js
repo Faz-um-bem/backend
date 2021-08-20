@@ -14,7 +14,7 @@ module.exports = {
   | Available Serializers - lucid, database
   |
   */
-  authenticator: 'jwt',
+  authenticator: 'institution',
 
   /*
   |--------------------------------------------------------------------------
@@ -63,9 +63,9 @@ module.exports = {
   | via HTTP `Authorization` header.
   |
   */
-  jwt: {
+  institution: {
     serializer: 'lucid',
-    model: 'App/Models/User',
+    model: 'App/Models/Institution',
     scheme: 'jwt',
     uid: 'email',
     password: 'password',

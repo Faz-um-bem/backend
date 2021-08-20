@@ -1,4 +1,6 @@
 const Validator = use('Validator');
+const UuidProvider = use('Uuid');
+
 const { cpf: cpfValidator, cnpj: cnpjValidator } = require('cpf-cnpj-validator');
 
 class ValidatorExtension {
@@ -7,6 +9,7 @@ class ValidatorExtension {
     Validator.extend('cpf', this.validateCpf);
     Validator.extend('cnpj', this.validateCnpj);
     Validator.extend('onlyDigits', this.validateStringOnlyDigits);
+    Validator.extend('uuid', this.validateUuid);
   }
 
   static async validateStringLength(data, field, message, args, get) {
@@ -43,6 +46,14 @@ class ValidatorExtension {
     const regex = new RegExp(/^[0-9]+$/);
 
     if (!regex.test(value)) throw message;
+  }
+
+  static async validateUuid(data, field, message, args, get) {
+    const uuid = get(data, field);
+
+    if (!uuid) return;
+
+    if (!UuidProvider.validate(uuid)) throw message;
   }
 }
 
