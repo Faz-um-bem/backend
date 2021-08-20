@@ -6,7 +6,7 @@ class CreateInstitutionValidator extends BaseValidator {
       email: 'required|email|string|unique:institutions',
       password: 'required|min:6|confirmed|string',
       corporate_name: 'required|string',
-      cnpj: 'required|length:14|string|cnpj',
+      cnpj: 'required|length:14|string|cnpj|unique:institutions',
       description: 'string',
       address: 'required|string',
       address_number: 'required|string',
@@ -38,6 +38,7 @@ class CreateInstitutionValidator extends BaseValidator {
       'cnpj.required': 'CNPJ é obrigatório',
       'cnpj.length': 'CNPJ precisa ter {{argument.0}} dígitos',
       'cnpj.cnpj': 'CNPJ inválido',
+      'cnpj.unique': 'CNPJ já registrado',
 
       'address.required': 'Endereço é obrigatório',
 

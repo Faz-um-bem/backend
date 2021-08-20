@@ -23,7 +23,7 @@ class CreateCampaignController extends BaseController {
       return created(result);
     }
 
-    return badRequest(result.data);
+    return badRequest(result.data.message);
   }
 }
 

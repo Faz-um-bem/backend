@@ -1,24 +1,52 @@
 const { institutionStatus } = use('App/Models/Enums/Institution');
 
+const { eventLogTypes } = use('App/Models/Enums/EventsLogs');
+
+const Hash = use('Hash');
+
 class CreateInstitutionUseCase {
   // Injeta dependências no construtor
   static get inject() {
-    return ['App/Models/Institution'];
+    return ['App/Models/Institution', 'App/Models/InstitutionEventsLog', 'App/Models/Shared/UnitOfWork'];
   }
 
   // Recebe dependências declaradas no inject
-  constructor(institutionModel) {
+  constructor(institutionModel, institutionEventsLogModel, uow) {
     this.institutionModel = institutionModel;
+    this.institutionEventsLogModel = institutionEventsLogModel;
+    this.uow = uow;
   }
 
   async execute(institutionData) {
-    const institution = await this.institutionModel.create(
-      { ...institutionData, status: institutionStatus.underReview },
-    );
+    try {
+      await this.uow.startTransaction();
 
-    // TODO Criar notificação de criação de instituicao
+      const institution = await this.institutionModel.create(
+        {
+          ...institutionData,
+          status: institutionStatus.underReview,
+          password: await Hash.make(institutionData.password),
+        },
+        this.uow.transaction,
+      );
 
-    return institution;
+      await this.institutionEventsLogModel.create(
+        {
+          event_type: eventLogTypes.create,
+          data: institution.toJSON(),
+          institution_id: institution.id,
+        },
+        this.uow.transaction,
+      );
+
+      await this.uow.commitTransaction();
+
+      return institution;
+    } catch (error) {
+      await this.uow.rollbackTransaction();
+
+      throw error;
+    }
   }
 }
 
