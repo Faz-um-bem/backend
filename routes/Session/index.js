@@ -9,6 +9,10 @@ class SessionRoutes extends BaseRoutes {
     router
       .post('/refreshToken', `${this.controllersPath}/Session/RefreshTokenController.handle`)
       .validator('Session/RefreshTokenValidator');
+
+    router
+      .post('/revokeToken', `${this.controllersPath}/Session/RevokeTokenController.handle`)
+      .validator('Session/RevokeTokenValidator');
   }
 }
 
