@@ -13,10 +13,12 @@ class AuthenticationMiddleware {
       const jwtToken = request.header('Authorization');
 
       if (!jwtToken) {
-        response.status(401).json({
-          message: 'Necessário informar um token de autenticação',
-          data: null,
-        });
+        response
+          .status(401)
+          .json({
+            message: 'Necessário informar um token de autenticação',
+            data: null,
+          });
 
         return;
       }
@@ -33,12 +35,12 @@ class AuthenticationMiddleware {
 
       await next();
     } catch (error) {
-      response.status(401);
-
-      response.json({
-        message: 'Token inválido',
-        data: null,
-      });
+      response
+        .status(401)
+        .json({
+          message: 'Token inválido',
+          data: null,
+        });
     }
   }
 
