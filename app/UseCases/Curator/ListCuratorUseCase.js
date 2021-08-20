@@ -7,8 +7,8 @@ class ListCuratorUseCase {
     this.curatorModel = curatorModel;
   }
 
-  async execute(requestData) {
-    const curator = await this.curatorModel.paginate(requestData.page, 10);
+  async execute({ page }) {
+    const curator = await this.curatorModel.paginate(page, 10);
 
     return { success: true, data: curator };
   }
