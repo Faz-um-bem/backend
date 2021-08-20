@@ -1,5 +1,7 @@
 const { eventLogTypes } = use('App/Models/Enums/EventsLogs');
 
+const Hash = use('Hash');
+
 class CreateCuratorUseCase {
   // Injeta dependências no construtor
   static get inject() {
@@ -17,7 +19,13 @@ class CreateCuratorUseCase {
     try {
       await this.uow.startTransaction();
 
-      const curator = await this.curatorModel.create(curatorData, this.uow.transaction);
+      const curator = await this.curatorModel.create(
+        {
+          ...curatorData,
+          password: await Hash.make(curatorData.password),
+        },
+        this.uow.transaction,
+      );
 
       await this.curatorEventsLogModel.create(
         {
