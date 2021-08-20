@@ -1,10 +1,10 @@
-const BaseController = use('App/Controllers/Http/BaseController');
+const BaseControler = use('App/Controllers/Http/BaseController');
 
 const { ok, notFound } = use('App/Controllers/Http/HttpResponses');
 
-class GetInstitutionController extends BaseController {
+class GetCampaignController extends BaseControler {
   static get inject() {
-    return ['App/UseCases/Institution/GetInstitutionUseCase'];
+    return ['App/UseCases/Campaign/GetCampaignUseCase'];
   }
 
   constructor(useCase) {
@@ -14,7 +14,7 @@ class GetInstitutionController extends BaseController {
   }
 
   async controllerOperation(request) {
-    const result = await this.useCase.execute(request.id);
+    const result = await this.useCase.execute(request);
 
     if (result.success) {
       return ok(result.data);
@@ -24,4 +24,4 @@ class GetInstitutionController extends BaseController {
   }
 }
 
-module.exports = GetInstitutionController;
+module.exports = GetCampaignController;
