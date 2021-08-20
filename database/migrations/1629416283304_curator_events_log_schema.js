@@ -11,7 +11,7 @@ class CuratorEventsLogSchema extends Schema {
 
       table.json('data');
 
-      table.integer('status', 1).notNullable().defaultTo(eventLogStatus.underReview);
+      table.integer('status').notNullable().defaultTo(eventLogStatus.underReview);
 
       table.text('curator_review');
 
