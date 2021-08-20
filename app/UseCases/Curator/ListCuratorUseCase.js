@@ -1,5 +1,3 @@
-const NotFoundException = use('App/Exceptions/NotFoundException');
-
 class ListCuratorUseCase {
   static get inject() {
     return ['App/Models/Curator'];
@@ -9,12 +7,8 @@ class ListCuratorUseCase {
     this.curatorModel = curatorModel;
   }
 
-  async execute() {
-    const curator = await this.curatorModel.all();
-
-    if (!curator) {
-      return { success: false, data: new NotFoundException('Nenhum curador foi encontrado') };
-    }
+  async execute(requestData) {
+    const curator = await this.curatorModel.paginate(requestData.page, 10);
 
     return { success: true, data: curator };
   }
