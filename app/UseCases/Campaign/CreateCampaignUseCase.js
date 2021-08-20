@@ -57,7 +57,7 @@ class CreateCampaignUseCase {
       );
       await this.uow.commitTransaction();
 
-      return campaign;
+      return { success: true, data: campaign };
     } catch (error) {
       await this.uow.rollbackTransaction();
 
