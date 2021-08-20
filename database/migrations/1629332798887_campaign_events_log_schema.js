@@ -14,7 +14,8 @@ class CampaignEventsLogSchema extends Schema {
       table.integer('campaign_id')
         .notNullable()
         .references('id')
-        .inTable('campaigns');
+        .inTable('campaigns')
+        .onDelete('CASCADE');
 
       table.timestamps();
     });
