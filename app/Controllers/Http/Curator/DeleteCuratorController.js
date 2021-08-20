@@ -1,6 +1,6 @@
 const BaseController = use('App/Controllers/Http/BaseController');
 
-const { noContent } = use('App/Controllers/Http/HttpResponses');
+const { noContent, notFound } = use('App/Controllers/Http/HttpResponses');
 
 class GetCuratorController extends BaseController {
   static get inject() {
@@ -14,7 +14,11 @@ class GetCuratorController extends BaseController {
   }
 
   async controllerOperation(request) {
-    await this.useCase.execute(request.id);
+    const result = await this.useCase.execute(request.id);
+
+    if (!result.success) {
+      return notFound(result.data.message);
+    }
 
     return noContent();
   }
