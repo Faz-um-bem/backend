@@ -19,6 +19,8 @@
       "no-underscore-dangle": "off",
       "arrow-parens": "off",
       "space-before-function-paren": "error",
-      "import/no-extraneous-dependencies": "off"
+      "import/no-extraneous-dependencies": "off",
+      "curly": "off",
+      "nonblock-statement-body-position": "off"
     }
 }

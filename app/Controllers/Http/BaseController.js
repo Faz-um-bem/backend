@@ -3,7 +3,7 @@ const Logger = use('Logger');
 class BaseController {
   async handle({ request, response, params }) {
     try {
-      const requestData ={...request.all(), ...params};
+      const requestData = { ...request.all(), ...params };
 
       const {
         statusCode,

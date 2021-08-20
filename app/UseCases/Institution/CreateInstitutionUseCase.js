@@ -2,6 +2,8 @@ const { institutionStatus } = use('App/Models/Enums/Institution');
 
 const { eventLogTypes } = use('App/Models/Enums/EventsLogs');
 
+const Hash = use('Hash');
+
 class CreateInstitutionUseCase {
   // Injeta dependências no construtor
   static get inject() {
@@ -20,7 +22,11 @@ class CreateInstitutionUseCase {
       await this.uow.startTransaction();
 
       const institution = await this.institutionModel.create(
-        { ...institutionData, status: institutionStatus.underReview },
+        {
+          ...institutionData,
+          status: institutionStatus.underReview,
+          password: await Hash.make(institutionData.password),
+        },
         this.uow.transaction,
       );
 
