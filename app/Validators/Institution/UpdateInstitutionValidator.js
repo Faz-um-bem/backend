@@ -4,7 +4,7 @@ class UpdateInstitutionValidator extends BaseValidator {
   get rules() {
     return {
       email: 'required|email|string|unique:institutions',
-      password: 'required|min:6|confirmed|string',
+      password: 'min:6|confirmed|string',
       corporate_name: 'required|string',
       cnpj: 'required|length:14|string|cnpj|unique:institutions',
       description: 'required|string',
@@ -29,7 +29,6 @@ class UpdateInstitutionValidator extends BaseValidator {
       'email.email': 'E-mail inválido',
       'email.unique': 'E-mail já registrado',
 
-      'password.required': 'Senha é obrigatória',
       'password.min': 'Senha precisa ter no mínimo {{argument.0}} caractéres',
       'password.confirmed': 'Senha e confirmação de senha não são iguais',
 
