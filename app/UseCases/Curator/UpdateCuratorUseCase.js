@@ -5,7 +5,7 @@ const { eventLogTypes } = use('App/Models/Enums/EventsLogs');
 
 const Hash = use('Hash');
 
-class GetCuratorUseCase {
+class UpdateCuratorUseCase {
   static get inject() {
     return [
       'App/Models/Curator',
@@ -67,4 +67,4 @@ class GetCuratorUseCase {
   }
 }
 
-module.exports = GetCuratorUseCase;
+module.exports = UpdateCuratorUseCase;

@@ -1,6 +1,6 @@
 const NotFoundException = use('App/Exceptions/NotFoundException');
 
-class GetCuratorUseCase {
+class DeleteCuratorUseCase {
   static get inject() {
     return ['App/Models/Curator'];
   }
@@ -22,4 +22,4 @@ class GetCuratorUseCase {
   }
 }
 
-module.exports = GetCuratorUseCase;
+module.exports = DeleteCuratorUseCase;

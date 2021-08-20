@@ -1,6 +1,6 @@
 const BaseValidator = require('../BaseValidator');
 
-class CreateCuratorValidator extends BaseValidator {
+class UpdateCuratorValidator extends BaseValidator {
   get rules() {
     return {
       name: 'required|string',
@@ -25,4 +25,4 @@ class CreateCuratorValidator extends BaseValidator {
   }
 }
 
-module.exports = CreateCuratorValidator;
+module.exports = UpdateCuratorValidator;
