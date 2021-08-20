@@ -30,7 +30,7 @@
     "@adonisjs/validator": "^5.1.0",
     "cpf-cnpj-validator": "^1.0.3",
     "pg": "^8.6.0",
-    "slugify": "^1.6.0"
+    "slugify": "^1.6.0",
     "jsonwebtoken": "^8.5.1",
     "uuid": "^8.3.2"
   },
