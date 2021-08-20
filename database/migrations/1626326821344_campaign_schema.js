@@ -22,7 +22,8 @@ class CampaignSchema extends Schema {
       table.integer('institution_id')
         .notNullable()
         .references('id')
-        .inTable('institutions');
+        .inTable('institutions')
+        .onDelete('CASCADE');
 
       table.string('slug').notNullable();
 
