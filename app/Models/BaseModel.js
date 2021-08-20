@@ -34,12 +34,13 @@ class BaseModel extends Model {
   /**
    * Update a model instance
    * @param {object} data Data to update model instance
+   * @param {object} transaction Database transaction
    * @returns {Promise<object>}
    */
-  async update(data) {
+  async update(data, transaction = null) {
     this.merge(data);
 
-    return this.save();
+    return this.save(transaction);
   }
 }
 

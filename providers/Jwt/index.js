@@ -35,6 +35,10 @@ class JwtProvider {
       },
     );
   }
+
+  decode({ token, options = {} }) {
+    return jsonwebtoken.decode(token, options);
+  }
 }
 
 module.exports = JwtProvider;
