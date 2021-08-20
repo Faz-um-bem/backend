@@ -19,7 +19,7 @@ class CampaignSchema extends Schema {
       table.string('address_longitude').notNullable();
 
       table.integer('status').notNullable();
-      table.integer('referred_institution').notNullable().references('id').inTable('institutions');
+      table.integer('institution_id').notNullable().references('id').inTable('institutions');
 
       table.timestamps();
     });
