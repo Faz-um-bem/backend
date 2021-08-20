@@ -13,8 +13,10 @@ class GetInstitutionsController extends BaseController {
     this.useCase = useCase;
   }
 
-  async controllerOperation() {
-    const result = await this.useCase.execute();
+  async controllerOperation(request) {
+    const { page } = request;
+
+    const result = await this.useCase.execute(page);
 
     if (result.success) {
       return ok(result.data);
