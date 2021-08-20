@@ -5,6 +5,7 @@ class LoginValidator extends BaseValidator {
     return {
       email: 'required|email|string',
       password: 'required|string',
+      type: 'required|in:curator,institution',
     };
   }
 
@@ -14,6 +15,9 @@ class LoginValidator extends BaseValidator {
       'email.email': 'E-mail inválido',
 
       'password.required': 'Senha é obrigatória',
+
+      'type.required': 'Tipo de conta é obrigatório',
+      'type.in': 'Tipo de conta precisa ser Curador ou Instituição',
     };
   }
 }

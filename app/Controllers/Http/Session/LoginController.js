@@ -7,16 +7,21 @@ class LoginController extends BaseController {
     return ['App/UseCases/Institution/LoginUseCase'];
   }
 
-  constructor(loginUseCase) {
+  constructor(institutionLoginUseCase) {
     super();
 
-    this.loginUseCase = loginUseCase;
+    this.institutionLoginUseCase = institutionLoginUseCase;
   }
 
   async controllerOperation(requestData) {
-    const { email, password } = requestData;
+    const { email, password, type } = requestData;
 
-    const result = await this.loginUseCase.execute({ email, password });
+    let result = {};
+
+    if (type === 'institution')
+      result = await this.institutionLoginUseCase.execute({ email, password });
+    else if (type === 'curator')
+      result = { success: false, data: new Error('Login do curador não implementado') };
 
     if (!result.success) { return handleError(result.data); }
 
