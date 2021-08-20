@@ -1,5 +1,3 @@
-const NotFoundException = use('App/Exceptions/NotFoundException');
-
 class GetCampaignsUseCase {
   static get inject() {
     return ['App/Models/Campaign'];
