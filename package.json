@@ -10,7 +10,7 @@
     "staging": "ENV_PATH=.env adonis serve --dev --debug",
     "migration:run-dev": "ENV_PATH=.env.dev adonis migration:run",
     "migration:rollback-dev": "ENV_PATH=.env.dev adonis migration:rollback",
-    "migration:refresh-dev": "ENV_PATH=.env.dev adonis migration:rollback"
+    "migration:refresh-dev": "ENV_PATH=.env.dev adonis migration:refresh"
   },
   "keywords": [
     "adonisjs",
@@ -29,8 +29,9 @@
     "@adonisjs/lucid": "^6.1.3",
     "@adonisjs/validator": "^5.1.0",
     "cpf-cnpj-validator": "^1.0.3",
-    "jsonwebtoken": "^8.5.1",
     "pg": "^8.6.0",
+    "slugify": "^1.6.0"
+    "jsonwebtoken": "^8.5.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
