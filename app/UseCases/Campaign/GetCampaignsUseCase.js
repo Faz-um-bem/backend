@@ -1,5 +1,3 @@
-const NotFoundException = use('App/Exceptions/NotFoundException');
-
 class GetCampaignsUseCase {
   static get inject() {
     return ['App/Models/Campaign'];
@@ -9,12 +7,8 @@ class GetCampaignsUseCase {
     this.campaignModel = campaignModel;
   }
 
-  async execute() {
-    const campaigns = await this.campaignModel.all();
-
-    if (!campaigns) {
-      return { success: false, data: new NotFoundException('Nenhuma campanha encontrada') };
-    }
+  async execute(page) {
+    const campaigns = await this.campaignModel.paginate(page, 10);
 
     return { success: true, data: campaigns };
   }

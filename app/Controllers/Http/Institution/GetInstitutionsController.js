@@ -2,9 +2,9 @@ const BaseController = use('App/Controllers/Http/BaseController');
 
 const { ok, notFound } = use('App/Controllers/Http/HttpResponses');
 
-class GetCampaignsController extends BaseController {
+class GetInstitutionsController extends BaseController {
   static get inject() {
-    return ['App/UseCases/Campaign/GetCampaignsUseCase'];
+    return ['App/UseCases/Institution/GetInstitutionsUseCase'];
   }
 
   constructor(useCase) {
@@ -26,4 +26,4 @@ class GetCampaignsController extends BaseController {
   }
 }
 
-module.exports = GetCampaignsController;
+module.exports = GetInstitutionsController;
