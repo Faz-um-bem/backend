@@ -1,3 +1,12 @@
+class InstitutionLogo {
+  constructor(logoData) {
+    this.value = logoData.value;
+    this.size = logoData.size;
+    this.name = logoData.name;
+    this.type = logoData.type;
+  }
+}
+
 class CreateInstitutionRequestModel {
   constructor(createInstitutionRequestData) {
     this.email = createInstitutionRequestData.email;
@@ -18,6 +27,9 @@ class CreateInstitutionRequestModel {
     this.main_phone = createInstitutionRequestData.main_phone;
     this.secondary_phone = createInstitutionRequestData.secondary_phone;
     this.whatsapp_phone = createInstitutionRequestData.whatsapp_phone;
+    this.file = createInstitutionRequestData.file
+      ? new InstitutionLogo(createInstitutionRequestData.file)
+      : undefined;
   }
 }
 

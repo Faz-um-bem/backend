@@ -21,6 +21,7 @@
       "space-before-function-paren": "error",
       "import/no-extraneous-dependencies": "off",
       "curly": "off",
-      "nonblock-statement-body-position": "off"
+      "nonblock-statement-body-position": "off",
+      "max-classes-per-file": "off"
     }
 }
