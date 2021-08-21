@@ -5,7 +5,8 @@ class InstitutionTokensSchema extends Schema {
   up() {
     this.create('institution_tokens', (table) => {
       table.increments();
-      table.integer('institution_id').unsigned().references('id').inTable('institutions');
+      table.integer('institution_id').unsigned().references('id').inTable('institutions')
+        .onDelete('CASCADE');
       table.string('token', 255).notNullable().unique().index();
       table.string('type', 80).notNullable();
       table.boolean('is_revoked').defaultTo(false);
