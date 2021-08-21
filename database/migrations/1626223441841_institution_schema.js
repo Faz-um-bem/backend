@@ -31,6 +31,8 @@ class InstitutionSchema extends Schema {
 
       table.string('logo');
 
+      table.string('slug').notNullable();
+
       table.timestamps();
     });
   }

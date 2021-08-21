@@ -2,6 +2,8 @@ const { institutionStatus } = use('App/Models/Enums/Institution');
 
 const { eventLogTypes } = use('App/Models/Enums/EventsLogs');
 
+const slugify = require('slugify');
+
 const Hash = use('Hash');
 
 class CreateInstitutionUseCase {
@@ -18,6 +20,11 @@ class CreateInstitutionUseCase {
   }
 
   async execute(institutionData) {
+    const slug = slugify(`${institutionData.name}`, {
+      replacement: '-',
+      lower: true,
+    });
+
     try {
       await this.uow.startTransaction();
 
@@ -26,6 +33,7 @@ class CreateInstitutionUseCase {
           ...institutionData,
           status: institutionStatus.underReview,
           password: await Hash.make(institutionData.password),
+          slug,
         },
         this.uow.transaction,
       );
