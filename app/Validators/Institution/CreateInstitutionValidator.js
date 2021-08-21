@@ -5,6 +5,7 @@ class CreateInstitutionValidator extends BaseValidator {
     return {
       email: 'required|email|string|unique:institutions',
       password: 'required|min:6|confirmed|string',
+      name: 'required|string|unique:institutions|max:255',
       corporate_name: 'required|string',
       cnpj: 'required|length:14|string|cnpj|unique:institutions',
       description: 'string',
@@ -20,6 +21,10 @@ class CreateInstitutionValidator extends BaseValidator {
       main_phone: 'required|string|length:11|onlyDigits',
       secondary_phone: 'string|length:11|onlyDigits',
       whatsapp_phone: 'string|length:11|onlyDigits',
+      'file.value': 'string',
+      'file.size': 'requiredIf:file.value|integer',
+      'file.type': 'requiredIf:file.value|string',
+      'file.name': 'requiredIf:file.value|string',
     };
   }
 
@@ -32,6 +37,10 @@ class CreateInstitutionValidator extends BaseValidator {
       'password.required': 'Senha é obrigatória',
       'password.min': 'Senha precisa ter no mínimo {{argument.0}} caractéres',
       'password.confirmed': 'Senha e confirmação de senha não são iguais',
+
+      'name.required': 'Nome da instituição é obrigatório',
+      'name.unique': 'Nome já utilizado',
+      'name.max': 'Nome da instituição não pode exceder o limite de 255 caractéres',
 
       'corporate_name.required': 'Razão social é obrigatória',
 
@@ -68,6 +77,13 @@ class CreateInstitutionValidator extends BaseValidator {
 
       'whatsapp_phone.length': 'Telefone do What\'sApp deve ter {{argument.0}} dígitos',
       'whatsapp_phone.onlyDigits': 'Apenas dígitos são aceitos no número de telefone do What\'sApp',
+
+      'file.size.requiredIf': 'Necessário informar o tamanho do arquivo',
+      'file.size.integer': 'Tamanho do arquivo deve ser um número inteiro',
+
+      'file.name.requiredIf': 'Necessário informar o nome do arquivo',
+
+      'file.type.requiredIf': 'Necessário informar o tipo do arquivo',
     };
   }
 }

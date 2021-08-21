@@ -8,8 +8,9 @@ class InstitutionSchema extends Schema {
 
       table.string('email').unique().notNullable();
       table.string('password').notNullable();
-      table.string('name').notNullable();
+      table.string('name').notNullable().unique();
       table.string('corporate_name').notNullable();
+      table.string('slug').notNullable().unique();
       table.string('cnpj', 14).notNullable();
       table.text('description').notNullable();
 

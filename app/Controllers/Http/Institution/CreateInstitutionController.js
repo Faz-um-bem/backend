@@ -2,7 +2,7 @@ const BaseController = use('App/Controllers/Http/BaseController');
 
 const CreateInstitutionRequestModel = use('App/Controllers/RequestModels/Institution/CreateInstitutionRequestModel');
 
-const { created } = use('App/Controllers/Http/HttpResponses');
+const { badRequest, created } = use('App/Controllers/Http/HttpResponses');
 
 class CreateInstitutionController extends BaseController {
   static get inject() {
@@ -20,7 +20,10 @@ class CreateInstitutionController extends BaseController {
 
     const result = await this.useCase.execute(institutionData);
 
-    return created(result);
+    if (!result.success)
+      return badRequest(result.message);
+
+    return created(result.data);
   }
 }
 

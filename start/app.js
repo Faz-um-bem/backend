@@ -16,8 +16,10 @@ const providers = [
   '@adonisjs/cors/providers/CorsProvider',
   '@adonisjs/lucid/providers/LucidProvider',
   '@adonisjs/validator/providers/ValidatorProvider',
+  '@adonisjs/drive/providers/DriveProvider',
   path.join(__dirname, '..', 'providers', 'Jwt/Provider'),
   path.join(__dirname, '..', 'providers', 'Uuid/Provider'),
+  path.join(__dirname, '..', 'providers', 'FileStorage/Provider'),
 ];
 
 /*
