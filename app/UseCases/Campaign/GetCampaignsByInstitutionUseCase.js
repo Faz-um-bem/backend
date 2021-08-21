@@ -20,7 +20,7 @@ class GetCampaignsByInstitutionUseCase {
 
     const campaigns = await this.campaignModel
       .query()
-      .where('referred_institution', '=', institutionId)
+      .where('institution_id', '=', institutionId)
       .fetch();
 
     // Verifica se a instituição possui campanha

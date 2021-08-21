@@ -19,7 +19,7 @@ class GetCampaignUseCase {
 
     const campaign = await this.campaignModel.find(request.campaign_id);
 
-    if (!campaign || campaign.referred_institution !== institution.id) {
+    if (!campaign || campaign.institution_id !== institution.id) {
       return { success: false, data: new NotFoundException('Campanha não encontrada') };
     }
 
