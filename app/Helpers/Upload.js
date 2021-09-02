@@ -1,12 +1,12 @@
 const Config = use('Config');
 
 class UploadHelper {
-  static getInstitutionUploadPath(institutionSlug) {
-    return Config.get('files.paths.institutions').replace('{INSTITUTION_NAME}', institutionSlug);
+  static getInstitutionUploadPath() {
+    return Config.get('files.paths.institutions');
   }
 
-  static getCampaingsUploadPath(institutionSlug, campaignSlug) {
-    return `${Config.get('files.paths.campaigns').replace('{INSTITUTION_NAME}', institutionSlug)}/${campaignSlug}`;
+  static getCampaignsUploadPath() {
+    return `${Config.get('files.paths.campaigns')}`;
   }
 }
 

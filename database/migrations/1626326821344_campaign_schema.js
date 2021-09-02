@@ -27,6 +27,8 @@ class CampaignSchema extends Schema {
 
       table.string('slug').notNullable();
 
+      table.text('logo');
+
       table.timestamps();
     });
   }

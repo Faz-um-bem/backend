@@ -15,6 +15,15 @@ class CampaignRoutes extends BaseRoutes {
     router.get('campaign/:slug', `${this.controllersPath}/Campaign/GetCampaignBySlugController.handle`);
 
     router.delete('/institutions/:id/campaign/:campaign_id', `${this.controllersPath}/Campaign/DeleteCampaignController.handle`);
+
+    router
+      .post('/campaigns/:id/photos', `${this.controllersPath}/Campaign/UploadPhotoController.handle`);
+
+    router
+      .delete('/campaigns/:id/photos/:photoId', `${this.controllersPath}/Campaign/DeletePhotoController.handle`);
+
+    router
+      .get('/campaigns/:id/photos', `${this.controllersPath}/Campaign/GetCampaignPhotosController.handle`);
   }
 }
 

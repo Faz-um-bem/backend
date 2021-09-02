@@ -1,6 +1,7 @@
 const Hash = use('Hash');
 const UploadHelper = use('App/Helpers/Upload');
 const SlugHelper = use('App/Helpers/Slug');
+const GenericException = use('App/Exceptions/GenericException');
 const Config = use('Config');
 const { institutionStatus } = use('App/Models/Enums/Institution');
 const { eventLogTypes } = use('App/Models/Enums/EventsLogs');
@@ -32,10 +33,12 @@ class CreateInstitutionUseCase {
   async execute({ file, ...institutionData }) {
     const institutionSlug = SlugHelper.createSlug({ text: institutionData.name });
 
+    const photoDateTime = Date.now();
+
     try {
       await this.uow.startTransaction();
 
-      const logoUploadResult = await this.saveLogo(file, institutionSlug);
+      const logoUploadResult = await this.saveLogo(file, photoDateTime);
       if (!logoUploadResult.success)
         return logoUploadResult;
 
@@ -65,13 +68,13 @@ class CreateInstitutionUseCase {
     } catch (error) {
       await this.uow.rollbackTransaction();
 
-      await this.deleteLogo(file, institutionSlug);
+      await this.deleteLogo(file, photoDateTime);
 
       throw error;
     }
   }
 
-  async saveLogo(file, institutionSlug) {
+  async saveLogo(file, photoDateTime) {
     if (!file)
       return { success: true, path: null };
 
@@ -84,20 +87,20 @@ class CreateInstitutionUseCase {
       return { success: false, message: `Tamanho maximo do arquivo deve ser ${maxSize}` };
 
     const logo = await this.fileStorageProvider
-      .saveFile({ file: file.value, path: `${UploadHelper.getInstitutionUploadPath(institutionSlug)}/${Date.now()}-${file.name}` });
+      .saveFile({ file: file.value, path: `${UploadHelper.getInstitutionUploadPath()}/${photoDateTime}-${file.name}` });
 
     if (!logo.success)
-      throw new Error('Erro ao salvar arquivo');
+      throw new GenericException('Erro ao salvar foto');
 
     return logo;
   }
 
-  deleteLogo(file, institutionSlug) {
+  deleteLogo(file, photoDateTime) {
     if (!file)
       return null;
 
     return this.fileStorageProvider
-      .deleteFile({ path: `${UploadHelper.getInstitutionUploadPath(institutionSlug)}/${file.name}` });
+      .deleteFile({ path: `${UploadHelper.getInstitutionUploadPath()}/${photoDateTime}-${file.name}` });
   }
 }
 
