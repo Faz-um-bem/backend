@@ -1,6 +1,6 @@
 const BaseValidator = require('../BaseValidator');
 
-class UpdateCampaignValidator extends BaseValidator {
+class RequestCampaignUpdateValidator extends BaseValidator {
   get rules() {
     return {
       title: 'required|string',
@@ -47,4 +47,4 @@ class UpdateCampaignValidator extends BaseValidator {
   }
 }
 
-module.exports = UpdateCampaignValidator;
+module.exports = RequestCampaignUpdateValidator;

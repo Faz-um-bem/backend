@@ -1,10 +1,10 @@
 const { eventLogTypes } = use('App/Models/Enums/EventsLogs');
 
-const slugify = require('slugify');
-
 const NotFoundException = use('App/Exceptions/NotFoundException');
 
-class UpdateCampaignUseCase {
+const BusinessException = use('App/Exceptions/BusinessException');
+
+class RequestCampaignUpdateUseCase {
   static get inject() {
     return ['App/Models/Campaign',
       'App/Models/Institution',
@@ -20,6 +20,19 @@ class UpdateCampaignUseCase {
   }
 
   async execute(campaignData) {
+    const campaignEventsLog = await this.campaignEventsLogModel
+      .query()
+      .where({
+        status: 2,
+        event_type: 1,
+        campaign_id: campaignData.id,
+      })
+      .first();
+
+    if (campaignEventsLog) {
+      return { success: false, data: new BusinessException('Campanha já possui atualização em análise') };
+    }
+
     const institution = await this.institutionModel.find(campaignData.institution_id);
     if (!institution) {
       return { success: false, data: new NotFoundException('Instituição não existente') };
@@ -30,28 +43,27 @@ class UpdateCampaignUseCase {
       return { success: false, data: new NotFoundException('Campanha não encontrada') };
     }
 
-    const slug = slugify(`${campaignData.title} ${institution.name}`, {
-      replacement: '-',
-      lower: true,
+    const updateRequestData = {};
+
+    // Salva em updateRequestData apenas os dados alterados na campanha
+    Object.keys(campaign.$attributes).forEach(key => {
+      if (campaign[key] != campaignData[key]) {
+        updateRequestData[key] = campaignData[key];
+      }
     });
 
     try {
       await this.uow.startTransaction();
 
-      campaign.merge({ ...campaignData, slug });
+      await this.campaignEventsLogModel.create({
+        event_type: eventLogTypes.update,
+        data: JSON.stringify(updateRequestData),
+        campaign_id: campaign.id,
+      });
 
-      await campaign.save(this.uow.transaction);
-
-      await this.campaignEventsLogModel.create(
-        {
-          event_type: eventLogTypes.update,
-          data: campaign.toJSON(),
-          campaign_id: campaign.id,
-        },
-      );
       await this.uow.commitTransaction();
 
-      return { success: true, data: campaign };
+      return { success: true, data: 'Pedido de atualização efetuado com sucesso' };
     } catch (error) {
       await this.uow.rollbackTransaction();
 
@@ -60,4 +72,4 @@ class UpdateCampaignUseCase {
   }
 }
 
-module.exports = UpdateCampaignUseCase;
+module.exports = RequestCampaignUpdateUseCase;

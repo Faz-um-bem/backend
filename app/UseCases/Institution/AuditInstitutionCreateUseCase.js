@@ -60,6 +60,14 @@ class AuditInstitutionCreateUseCase {
       });
       await institutionEventLog.save(this.uow.transaction);
 
+      const institution = await this.institutionModel.find(requestData.id);
+
+      institution.merge({
+        status: eventLogStatus.rejected,
+      });
+
+      await institution.save(this.uow.transaction);
+
       await this.uow.commitTransaction();
 
       return { success: true, data: 'Criação de instituição rejeitada com sucesso' };

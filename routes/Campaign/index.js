@@ -5,9 +5,12 @@ class CampaignRoutes extends BaseRoutes {
     router
       .post('/institutions/:id/campaign/', `${this.controllersPath}/Campaign/CreateCampaignController.handle`)
       .validator('Campaign/CreateCampaignValidator');
+    router
+      .post('/institutions/:id/campaign/:campaign_id', `${this.controllersPath}/Campaign/RequestCampaignUpdateController.handle`)
+      .validator('Campaign/RequestCampaignUpdateValidator');
 
-    router.put('/institutions/:id/campaign/:campaign_id', `${this.controllersPath}/Campaign/UpdateCampaignController.handle`)
-      .validator('Campaign/UpdateCampaignValidator');
+    router
+      .put('/institutions/:id/campaign/:campaign_id', `${this.controllersPath}/Campaign/AuditCampaignController.handle`);
 
     router.get('/institutions/:id/campaign/:campaign_id', `${this.controllersPath}/Campaign/GetCampaignController.handle`);
     router.get('/campaigns', `${this.controllersPath}/Campaign/GetCampaignsController.handle`);
