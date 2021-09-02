@@ -25,6 +25,8 @@ class DeletePhotoUseCase {
     if (!institutionPhoto)
       return { success: false, data: new NotFoundException('Foto não encontrada') };
 
+    await institutionPhoto.delete();
+
     const deletedPhoto = await this.fileStorageProvider
       .deleteFile({ path: institutionPhoto.url });
 

@@ -37,12 +37,12 @@ class UploadPhotoUseCase {
     try {
       const photoPath = await this.savePhoto(photo, photoDateTime);
 
-      await this.institutionPhotoModel.create({
+      const institutionPhoto = await this.institutionPhotoModel.create({
         institution_id: institutionId,
         url: photoPath,
       });
 
-      return { success: true, data: 'Envio de imagem realizado com sucesso' };
+      return { success: true, data: institutionPhoto };
     } catch (error) {
       await this.deletePhoto(photo, photoDateTime);
 

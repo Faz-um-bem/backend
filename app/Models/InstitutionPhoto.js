@@ -1,7 +1,10 @@
-/** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
-const Model = use('Model');
+const BaseModel = use('App/Models/BaseModel');
+const Env = use('Env');
 
-class InstitutionPhoto extends Model {
+class InstitutionPhoto extends BaseModel {
+  getUrl(url) {
+    return `${Env.get('APP_DOMAIN')}/${url}`;
+  }
 }
 
 module.exports = InstitutionPhoto;
