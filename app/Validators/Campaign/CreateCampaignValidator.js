@@ -14,6 +14,10 @@ class CreateCampaignValidator extends BaseValidator {
       city: 'required|string',
       address_latitude: 'required|string',
       address_longitude: 'required|string',
+      'file.value': 'string',
+      'file.size': 'requiredIf:file.value|integer',
+      'file.type': 'requiredIf:file.value|string',
+      'file.name': 'requiredIf:file.value|string',
     };
   }
 
@@ -39,6 +43,13 @@ class CreateCampaignValidator extends BaseValidator {
       'address_latitude.required': 'Latitude do endereço é obrigatório',
 
       'address_longitude.required': 'Longitude do endereço é obrigatório',
+
+      'file.size.requiredIf': 'Necessário informar o tamanho do arquivo',
+      'file.size.integer': 'Tamanho do arquivo deve ser um número inteiro',
+
+      'file.name.requiredIf': 'Necessário informar o nome do arquivo',
+
+      'file.type.requiredIf': 'Necessário informar o tipo do arquivo',
     };
   }
 }

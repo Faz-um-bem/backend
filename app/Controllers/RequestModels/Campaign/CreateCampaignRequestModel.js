@@ -12,6 +12,7 @@ class CreateCampaignRequestModel {
     this.address_latitude = createCampaignRequestData.address_latitude;
     this.address_longitude = createCampaignRequestData.address_longitude;
     this.institution_id = createCampaignRequestData.id;
+    this.file = createCampaignRequestData.file;
   }
 }
 
