@@ -18,6 +18,9 @@ class InstitutionRoutes extends BaseRoutes {
 
     router
       .post('/institutions/:id/photos', `${this.controllersPath}/Institution/UploadPhotoController.handle`);
+
+    router
+      .delete('/institutions/:id/photos/:photoId', `${this.controllersPath}/Institution/DeletePhotoController.handle`);
   }
 }
 

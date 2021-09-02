@@ -34,8 +34,8 @@ class FileStorageProvider {
         throw new Error('File does not exists');
 
       const file = returnStream
-        ? this.fileStorageProvider.getStream(this.getFilePath({ path }))
-        : this.fileStorageProvider.get(this.getFilePath({ path }));
+        ? this.fileStorageProvider.getStream(this.getFileFullPath({ path }))
+        : this.fileStorageProvider.get(this.getFileFullPath({ path }));
 
       return { success: true, file };
     } catch (error) {
@@ -50,7 +50,7 @@ class FileStorageProvider {
       if (!fileExists)
         throw new Error('File does not exists');
 
-      await this.fileStorageProvider.delete(this.getFilePath({ path }));
+      await this.fileStorageProvider.delete(this.getFileFullPath({ path }));
 
       return { success: true, message: 'File successfully deleted' };
     } catch (error) {
@@ -59,12 +59,12 @@ class FileStorageProvider {
   }
 
   fileExists({ path }) {
-    const filePath = this.getFilePath({ path });
+    const filePath = this.getFileFullPath({ path });
 
     return this.fileStorageProvider.exists(filePath);
   }
 
-  getFilePath({ path }) {
+  getFileFullPath({ path }) {
     return join(Helpers.publicPath(), path);
   }
 }
