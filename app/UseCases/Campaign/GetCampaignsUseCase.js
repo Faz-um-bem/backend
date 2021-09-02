@@ -8,7 +8,7 @@ class GetCampaignsUseCase {
   }
 
   async execute(page) {
-    const campaigns = await this.campaignModel.paginate(page, 10);
+    const campaigns = await this.campaignModel.query().with('tags.tag').paginate(page, 10);
 
     return { success: true, data: campaigns };
   }

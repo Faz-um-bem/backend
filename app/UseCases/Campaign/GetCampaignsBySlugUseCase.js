@@ -17,6 +17,8 @@ class GetCampaignsBySlugUseCase {
       return { success: false, data: new NotFoundException('Campanha não encontrada') };
     }
 
+    await campaign.load('tags.tag');
+
     return { success: true, data: campaign };
   }
 }
