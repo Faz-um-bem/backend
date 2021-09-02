@@ -4,13 +4,14 @@ const { ok, handleError } = use('App/Controllers/Http/HttpResponses');
 
 class LoginController extends BaseController {
   static get inject() {
-    return ['App/UseCases/Institution/LoginUseCase'];
+    return ['App/UseCases/Institution/LoginUseCase', 'App/UseCases/Curator/LoginUseCase'];
   }
 
-  constructor(institutionLoginUseCase) {
+  constructor(institutionLoginUseCase, curatorLoginUseCase) {
     super();
 
     this.institutionLoginUseCase = institutionLoginUseCase;
+    this.curatorLoginUseCase = curatorLoginUseCase;
   }
 
   async controllerOperation(requestData) {
@@ -21,7 +22,7 @@ class LoginController extends BaseController {
     if (type === 'institution')
       result = await this.institutionLoginUseCase.execute({ email, password });
     else if (type === 'curator')
-      result = { success: false, data: new Error('Login do curador não implementado') };
+      result = await this.curatorLoginUseCase.execute({ email, password });
 
     if (!result.success) { return handleError(result.data); }
 
