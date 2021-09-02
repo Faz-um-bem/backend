@@ -4,13 +4,14 @@ const { noContent, handleError } = use('App/Controllers/Http/HttpResponses');
 
 class RevokeTokenController extends BaseController {
   static get inject() {
-    return ['App/UseCases/Institution/RevokeTokenUseCase'];
+    return ['App/UseCases/Institution/RevokeTokenUseCase', 'App/UseCases/Curator/RevokeTokenUseCase'];
   }
 
-  constructor(institutionRevokeTokenUseCase) {
+  constructor(institutionRevokeTokenUseCase, curatorRevokeTokenUseCase) {
     super();
 
     this.institutionRevokeTokenUseCase = institutionRevokeTokenUseCase;
+    this.curatorRevokeTokenUseCase = curatorRevokeTokenUseCase;
   }
 
   async controllerOperation(requestData) {
@@ -23,7 +24,7 @@ class RevokeTokenController extends BaseController {
         .institutionRevokeTokenUseCase
         .execute({ institutionId: id, refreshToken });
     else if (type === 'curator')
-      result = { success: false, data: new Error('Revogação do token do curador não implementada') };
+      result = await this.curatorRevokeTokenUseCase.execute({ curatorId: id, refreshToken });
 
     if (!result.success) { return handleError(result.data); }
 

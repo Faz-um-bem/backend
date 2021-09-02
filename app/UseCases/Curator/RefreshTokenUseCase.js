@@ -3,38 +3,36 @@ const { userType } = use('App/Models/Enums/UserType');
 
 class RefreshTokenUseCase {
   static get inject() {
-    return ['App/Models/InstitutionToken', 'App/Models/Institution', 'App/Models/Shared/UnitOfWork', 'Jwt', 'Uuid'];
+    return ['App/Models/CuratorToken', 'App/Models/Curator', 'App/Models/Shared/UnitOfWork', 'Jwt', 'Uuid'];
   }
 
-  constructor(institutionTokenModel, institutionModel, uow, jwtProvider, uuidProvider) {
-    this.institutionTokenModel = institutionTokenModel;
-    this.institutionModel = institutionModel;
+  constructor(curatorTokenModel, curatorModel, uow, jwtProvider, uuidProvider) {
+    this.curatorTokenModel = curatorTokenModel;
+    this.curatorModel = curatorModel;
     this.uow = uow;
     this.jwtProvider = jwtProvider;
     this.uuidProvider = uuidProvider;
   }
 
-  async execute({ refreshToken, institutionId }) {
+  async execute({ refreshToken, curatorId }) {
     try {
       await this.uow.startTransaction();
 
-      const validRefreshToken = await this.institutionTokenModel
+      const validRefreshToken = await this.curatorTokenModel
         .query()
         .where(
-          { is_revoked: false, token: refreshToken, institution_id: institutionId },
+          { is_revoked: false, token: refreshToken, curator_id: curatorId },
         )
         .first();
 
       if (!validRefreshToken) { return { success: false, data: new BusinessException('Token inválido') }; }
 
-      const token = await this.jwtProvider.sign(
-        {
-          payload: {
-            id: institutionId,
-            type: userType.institution,
-          },
+      const token = await this.jwtProvider.sign({
+        payload: {
+          id: curatorId,
+          type: userType.curator,
         },
-      );
+      });
 
       const newRefreshToken = this.uuidProvider.create();
 
@@ -42,10 +40,10 @@ class RefreshTokenUseCase {
 
       await validRefreshToken.save(this.uow.transaction);
 
-      await this.institutionTokenModel.create({
+      await this.curatorTokenModel.create({
         token: newRefreshToken,
         type: 'jwt_refresh_token',
-        institution_id: institutionId,
+        curator_id: curatorId,
         is_revoked: false,
       }, this.uow.transaction);
 
