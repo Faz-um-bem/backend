@@ -14,6 +14,8 @@ class InstitutionRoutes extends BaseRoutes {
       .validator('Institution/AuditInstitutionValidator');
 
     router
+      .get('/institutions/audit', `${this.controllersPath}/Institution/GetInstitutionsToAuditController.handle`);
+    router
       .get('/institutions/:id', `${this.controllersPath}/Institution/GetInstitutionController.handle`);
     router
       .get('/institutions', `${this.controllersPath}/Institution/GetInstitutionsController.handle`);

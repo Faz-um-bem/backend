@@ -1,6 +1,6 @@
 const BaseController = use('App/Controllers/Http/BaseController');
 
-const { ok, notFound } = use('App/Controllers/Http/HttpResponses');
+const { ok } = use('App/Controllers/Http/HttpResponses');
 
 class GetCampaignsToAuditController extends BaseController {
   static get inject() {
