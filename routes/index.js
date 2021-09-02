@@ -2,7 +2,7 @@ const InstitutionRoutes = use('Routes/Institution');
 const CuratorRoutes = use('Routes/Curator');
 const CampaignRoutes = use('Routes/Campaign');
 const SessionRoutes = use('Routes/Session');
-const CampaignTagRoutes = use('Routes/CampaignTag');
+const TagRoutes = use('Routes/Tag');
 
 class Routes {
   static registerRoutes(router) {
@@ -10,7 +10,7 @@ class Routes {
     CuratorRoutes.registerRoutes(router);
     CampaignRoutes.registerRoutes(router);
     SessionRoutes.registerRoutes(router);
-    CampaignTagRoutes.registerRoutes(router);
+    TagRoutes.registerRoutes(router);
   }
 }
 

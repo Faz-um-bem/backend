@@ -3,7 +3,7 @@ const Schema = use('Schema');
 
 class CampaignTagsSchema extends Schema {
   up() {
-    this.create('campaign_tags', (table) => {
+    this.create('tags', (table) => {
       table.increments();
       table.string('name').notNullable();
       table.timestamps();
@@ -11,7 +11,7 @@ class CampaignTagsSchema extends Schema {
   }
 
   down() {
-    this.drop('campaign_tags');
+    this.drop('tags');
   }
 }
 

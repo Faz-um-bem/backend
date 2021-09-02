@@ -4,7 +4,7 @@ const { ok } = use('App/Controllers/Http/HttpResponses');
 
 class ListTagsController extends BaseController {
   static get inject() {
-    return ['App/UseCases/CampaignTag/ListTagsUseCase'];
+    return ['App/UseCases/Tag/ListTagsUseCase'];
   }
 
   constructor(useCase) {
