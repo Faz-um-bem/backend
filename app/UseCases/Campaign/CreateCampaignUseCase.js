@@ -29,7 +29,7 @@ class CreateCampaignUseCase {
     this.fileStorageProvider = fileStorageProvider;
   }
 
-  async execute({ file, ...campaignData }) {
+  async execute({ file, tags, ...campaignData }) {
     // Verifica se a instituição onde a campanha será criada existe
     const institution = await this.institutionModel.find(campaignData.institution_id);
     if (!institution) {
@@ -57,6 +57,8 @@ class CreateCampaignUseCase {
         },
         this.uow.transaction,
       );
+
+      campaign.tags().createMany(tags.map(tag => ({ tag_id: tag })));
 
       await this.campaignEventsLogModel.create(
         {

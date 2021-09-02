@@ -8,6 +8,10 @@ class Campaign extends BaseModel {
 
     return `${Env.get('APP_DOMAIN')}/${logo}`;
   }
+
+  tags() {
+    return this.hasMany('App/Models/CampaignTag');
+  }
 }
 
 module.exports = Campaign;
