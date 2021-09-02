@@ -5,7 +5,7 @@ class UploadHelper {
     return Config.get('files.paths.institutions');
   }
 
-  static getCampaingsUploadPath() {
+  static getCampaignsUploadPath() {
     return `${Config.get('files.paths.campaigns')}`;
   }
 }
