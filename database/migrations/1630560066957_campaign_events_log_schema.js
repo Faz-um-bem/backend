@@ -17,6 +17,11 @@ class CampaignEventsLogSchema extends Schema {
         .inTable('campaigns')
         .onDelete('CASCADE');
 
+      table.integer('curator_id')
+        .references('id')
+        .inTable('curators')
+        .onDelete('CASCADE');
+
       table.timestamps();
     });
   }

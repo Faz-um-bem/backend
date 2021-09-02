@@ -21,7 +21,10 @@ class InstitutionEventsLogSchema extends Schema {
         .notNullable()
         .onDelete('CASCADE');
 
-      // TODO Add foreign key to curator
+      table.integer('curator_id')
+        .references('id')
+        .inTable('curators')
+        .onDelete('CASCADE');
 
       table.timestamps();
     });
