@@ -23,7 +23,7 @@ class RequestCampaignUpdateController extends BaseController {
       return ok(result);
     }
 
-    return handleError(result.data.message);
+    return handleError(result.data);
   }
 }
 
