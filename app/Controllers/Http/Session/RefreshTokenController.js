@@ -4,13 +4,14 @@ const { ok, handleError } = use('App/Controllers/Http/HttpResponses');
 
 class RefreshTokenController extends BaseController {
   static get inject() {
-    return ['App/UseCases/Institution/RefreshTokenUseCase'];
+    return ['App/UseCases/Institution/RefreshTokenUseCase', 'App/UseCases/Curator/RefreshTokenUseCase'];
   }
 
-  constructor(institutionRefreshTokenUseCase) {
+  constructor(institutionRefreshTokenUseCase, curatorRefreshTokenUseCase) {
     super();
 
     this.institutionRefreshTokenUseCase = institutionRefreshTokenUseCase;
+    this.curatorRefreshTokenUseCase = curatorRefreshTokenUseCase;
   }
 
   async controllerOperation(requestData) {
@@ -23,7 +24,7 @@ class RefreshTokenController extends BaseController {
         .institutionRefreshTokenUseCase
         .execute({ institutionId: id, refreshToken });
     else if (type === 'curator')
-      result = { success: false, data: new Error('Atualização do token do curador não implementado') };
+      result = await this.curatorRefreshTokenUseCase.execute({ curatorId: id, refreshToken });
 
     if (!result.success) { return handleError(result.data); }
 
