@@ -36,6 +36,7 @@ const namedMiddleware = {
   guest: 'Adonis/Middleware/AllowGuestOnly',
   auth: 'App/Middleware/AuthenticationMiddleware',
   admin: 'App/Middleware/AdminMiddleware',
+  isYourself: 'App/Middleware/IsYourselfMiddleware',
 };
 
 /*
