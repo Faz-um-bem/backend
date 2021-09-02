@@ -1,14 +1,10 @@
 const { eventLogTypes } = use('App/Models/Enums/EventsLogs');
 
-const slugify = require('slugify');
-
 const NotFoundException = use('App/Exceptions/NotFoundException');
 
 const BusinessException = use('App/Exceptions/BusinessException');
 
-const Hash = use('Hash');
-
-class UpdateInstitutionUseCase {
+class RequestInstitutionUpdateUseCase {
   static get inject() {
     return ['App/Models/Institution',
       'App/Models/InstitutionEventsLog',
@@ -22,15 +18,23 @@ class UpdateInstitutionUseCase {
   }
 
   async execute(institutionData) {
+    const institutionEventLog = await this.institutionEventsLogModel
+      .query()
+      .where({
+        status: 2,
+        event_type: 1,
+        institution_id: institutionData.id,
+      })
+      .first();
+
+    if (institutionEventLog) {
+      return { success: false, data: new BusinessException('Instituição já possui atualização em análise') };
+    }
+
     const institution = await this.institutionModel.find(institutionData.id);
     if (!institution) {
       return { success: false, data: new NotFoundException('Instituição não encontrada') };
     }
-
-    const slug = slugify(`${institutionData.name}`, {
-      replacement: '-',
-      lower: true,
-    });
 
     const institutionEmail = await this.institutionModel.findBy('email', institutionData.email);
     if (institutionEmail && Number(institutionData.id) !== institutionEmail.id) {
@@ -42,26 +46,27 @@ class UpdateInstitutionUseCase {
       return { success: false, data: new BusinessException('CNPJ já registrado') };
     }
 
+    const updateRequestData = {};
+
+    // Salva em updateRequestData apenas os dados alterados na instituição
+    Object.keys(institution.$attributes).forEach(key => {
+      if (institution[key] != institutionData[key]) {
+        updateRequestData[key] = institutionData[key];
+      }
+    });
+
     try {
       await this.uow.startTransaction();
 
-      institution.merge({
-        ...institutionData,
-        ...institutionData.password && { password: await Hash.make(institutionData.password) },
-        slug,
-      });
-
-      await institution.save(this.uow.transaction);
-
       await this.institutionEventsLogModel.create({
         event_type: eventLogTypes.update,
-        data: institution.toJSON(),
+        data: JSON.stringify(updateRequestData),
         institution_id: institution.id,
       });
 
       await this.uow.commitTransaction();
 
-      return { success: true, data: institution };
+      return { success: true, data: 'Pedido de atualização efetuado com sucesso' };
     } catch (error) {
       await this.uow.rollbackTransaction();
 
@@ -70,4 +75,4 @@ class UpdateInstitutionUseCase {
   }
 }
 
-module.exports = UpdateInstitutionUseCase;
+module.exports = RequestInstitutionUpdateUseCase;

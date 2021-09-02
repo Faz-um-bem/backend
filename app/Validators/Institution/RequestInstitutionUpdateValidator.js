@@ -1,6 +1,6 @@
 const BaseValidator = require('../BaseValidator');
 
-class UpdateInstitutionValidator extends BaseValidator {
+class RequestInstitutionUpdateValidator extends BaseValidator {
   get rules() {
     return {
       email: 'required|email|string',
@@ -19,8 +19,8 @@ class UpdateInstitutionValidator extends BaseValidator {
       address_latitude: 'required|string',
       address_longitude: 'required|string',
       main_phone: 'required|string|length:11|onlyDigits',
-      secondary_phone: 'required|string|length:11|onlyDigits',
-      whatsapp_phone: 'required|string|length:11|onlyDigits',
+      secondary_phone: 'string|length:11|onlyDigits',
+      whatsapp_phone: 'string|length:11|onlyDigits',
     };
   }
 
@@ -80,4 +80,4 @@ class UpdateInstitutionValidator extends BaseValidator {
   }
 }
 
-module.exports = UpdateInstitutionValidator;
+module.exports = RequestInstitutionUpdateValidator;
