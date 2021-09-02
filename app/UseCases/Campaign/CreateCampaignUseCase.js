@@ -58,7 +58,7 @@ class CreateCampaignUseCase {
         this.uow.transaction,
       );
 
-      campaign.tags().createMany(tags.map(tag => ({ tag_id: tag })));
+      // campaign.tags().createMany(tags.map(tag => ({ tag_id: tag })));
 
       await this.campaignEventsLogModel.create(
         {
