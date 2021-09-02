@@ -14,9 +14,9 @@ class GetCampaignsToAuditController extends BaseController {
   }
 
   async controllerOperation(request) {
-    const { page } = request;
+    const { page = 1, title = null, status = null } = request;
 
-    const result = await this.useCase.execute(page);
+    const result = await this.useCase.execute(page, title, status);
 
     return ok(result);
   }

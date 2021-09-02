@@ -9,10 +9,18 @@ class GetCampaignsToAuditUseCase {
     this.campaignModel = campaignModel;
   }
 
-  async execute(page) {
-    const campaigns = await this.campaignModel
+  async execute(page, title, status) {
+    const campaignsQuery = this.campaignModel
       .query()
-      .where('status', 2)
+      .clone();
+
+    if (title)
+      campaignsQuery.where('title', 'like', `%${title}%`);
+
+    if (status)
+      campaignsQuery.where('status', status);
+
+    const campaigns = await campaignsQuery
       .with('event_logs', (qb) => {
         qb.where('status', eventLogStatus.underReview);
       })
