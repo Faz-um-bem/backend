@@ -1,5 +1,8 @@
 const { Buffer } = require('buffer');
 const isBase64 = require('is-base64');
+const { join } = require('path');
+
+const Helpers = use('Helpers');
 
 class FileStorageProvider {
   static get inject() {
@@ -31,8 +34,8 @@ class FileStorageProvider {
         throw new Error('File does not exists');
 
       const file = returnStream
-        ? this.fileStorageProvider.getStream(path)
-        : this.fileStorageProvider.get(path);
+        ? this.fileStorageProvider.getStream(this.getFilePath({ path }))
+        : this.fileStorageProvider.get(this.getFilePath({ path }));
 
       return { success: true, file };
     } catch (error) {
@@ -47,7 +50,7 @@ class FileStorageProvider {
       if (!fileExists)
         throw new Error('File does not exists');
 
-      await this.fileStorageProvider.delete(path);
+      await this.fileStorageProvider.delete(this.getFilePath({ path }));
 
       return { success: true, message: 'File successfully deleted' };
     } catch (error) {
@@ -56,7 +59,13 @@ class FileStorageProvider {
   }
 
   fileExists({ path }) {
-    return this.fileStorageProvider.exists(path);
+    const filePath = this.getFilePath({ path });
+
+    return this.fileStorageProvider.exists(filePath);
+  }
+
+  getFilePath({ path }) {
+    return join(Helpers.publicPath(), path);
   }
 }
 
