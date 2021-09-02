@@ -4,7 +4,7 @@ const SlugHelper = use('App/Helpers/Slug');
 
 const NotFoundException = use('App/Exceptions/NotFoundException');
 
-class AuditInstitutionUseCase {
+class AuditInstitutionUpdateUseCase {
   static get inject() {
     return ['App/Models/Institution',
       'App/Models/InstitutionEventsLog',
@@ -75,4 +75,4 @@ class AuditInstitutionUseCase {
   }
 }
 
-module.exports = AuditInstitutionUseCase;
+module.exports = AuditInstitutionUpdateUseCase;

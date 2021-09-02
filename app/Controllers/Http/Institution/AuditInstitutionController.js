@@ -6,19 +6,30 @@ const AuditInstitutionRequestModel = use('App/Controllers/RequestModels/Institut
 
 class AuditInstitutionController extends BaseController {
   static get inject() {
-    return ['App/UseCases/Institution/AuditInstitutionUseCase'];
+    return ['App/UseCases/Institution/AuditInstitutionUpdateUseCase',
+      'App/UseCases/Institution/AuditInstitutionCreateUseCase'];
   }
 
-  constructor(useCase) {
+  constructor(auditInstitutionUpdateUseCaseuseCase, auditInstitutionCreateUseCase) {
     super();
 
-    this.useCase = useCase;
+    this.auditInstitutionUpdateUseCaseuseCase = auditInstitutionUpdateUseCaseuseCase;
+    this.auditInstitutionCreateUseCase = auditInstitutionCreateUseCase;
   }
 
   async controllerOperation(request) {
     const institutionData = new AuditInstitutionRequestModel(request);
+    if (request.institution_event_type) {
+      const result = await this.auditInstitutionUpdateUseCaseuseCase.execute(institutionData);
+      if (result.success) {
+        return ok(result);
+      }
 
-    const result = await this.useCase.execute(institutionData);
+      return notFound(result.data.message);
+    }
+
+    const result = await this.auditInstitutionCreateUseCase.execute(institutionData);
+
     if (result.success) {
       return ok(result);
     }
