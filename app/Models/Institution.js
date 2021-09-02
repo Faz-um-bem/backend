@@ -11,6 +11,11 @@ class Institution extends BaseModel {
 
     return `${Env.get('APP_DOMAIN')}/${logo}`;
   }
+
+  // eslint-disable-next-line camelcase
+  event_logs() {
+    return this.hasMany('App/Models/InstitutionEventsLog');
+  }
 }
 
 module.exports = Institution;

@@ -1,17 +1,19 @@
+const { eventLogStatus } = use('App/Models/Enums/EventsLogs');
 class GetInstitutionsToAuditUseCase {
   static get inject() {
-    return ['App/Models/InstitutionEventsLog'];
+    return ['App/Models/Institution'];
   }
 
-  constructor(institutionEventLogModel) {
-    this.institutionEventLogModel = institutionEventLogModel;
+  constructor(institutionModel) {
+    this.institutionModel = institutionModel;
   }
 
   async execute(page) {
-    const institutions = await this.institutionEventLogModel
+    const institutions = await this.institutionModel
       .query()
-      .where('status', 2)
-      .with('institution')
+      .with('event_logs', (qb) => {
+        qb.where({ status: eventLogStatus.underReview });
+      })
       .paginate(page, 20);
 
     return institutions;

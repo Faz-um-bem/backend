@@ -12,6 +12,11 @@ class Campaign extends BaseModel {
   tags() {
     return this.hasMany('App/Models/CampaignTag');
   }
+
+  // eslint-disable-next-line camelcase
+  event_logs() {
+    return this.hasMany('App/Models/CampaignEventsLog');
+  }
 }
 
 module.exports = Campaign;
