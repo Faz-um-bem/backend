@@ -12,20 +12,20 @@ class InstitutionRoutes extends BaseRoutes {
     router
       .put('institutions/:id', `${this.controllersPath}/Institution/AuditInstitutionController.handle`)
       .validator('Institution/AuditInstitutionValidator');
-    
+
     router
       .get('/institutions/audit', `${this.controllersPath}/Institution/GetInstitutionsToAuditController.handle`);
     router
       .get('/institutions/:id', `${this.controllersPath}/Institution/GetInstitutionController.handle`);
-    
+
     router
       .get('/institutions', `${this.controllersPath}/Institution/GetInstitutionsController.handle`);
 
     router
       .delete('/institutions/:id', `${this.controllersPath}/Institution/DeleteInstitutionController.handle`);
-    
+
     router.get('/institutions/:id', `${this.controllersPath}/Institution/GetInstitutionController.handle`);
-    
+
     router.get('/institution/:slug', `${this.controllersPath}/Institution/GetInstitutionBySlugController.handle`);
 
     router.delete('/institutions/:id', `${this.controllersPath}/Institution/DeleteInstitutionController.handle`);
