@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "dev": " adonis serve --dev --debug",
+    "dev": "ENV_PATH=.env.dev adonis serve --dev --debug",
     "staging": "ENV_PATH=.env adonis serve --dev --debug",
     "migration:run-dev": "ENV_PATH=.env.dev adonis migration:run",
     "migration:rollback-dev": "ENV_PATH=.env.dev adonis migration:rollback",
