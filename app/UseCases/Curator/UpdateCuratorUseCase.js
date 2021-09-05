@@ -5,38 +5,29 @@ class UpdateCuratorUseCase {
   static get inject() {
     return [
       'App/Models/Curator',
-      'App/Models/CuratorEventsLog',
       'App/Models/Shared/UnitOfWork',
     ];
   }
 
-  constructor(curatorModel, curatorEventsLogModel, uow) {
+  constructor(curatorModel, uow) {
     this.curatorModel = curatorModel;
-    this.curatorEventsLogModel = curatorEventsLogModel;
     this.uow = uow;
   }
 
   async execute(curatorData) {
     const curator = await this.curatorModel.find(curatorData.id);
 
-    if (!curator) {
+    if (!curator)
       return { success: false, data: new NotFoundException('Curador não encontrado') };
-    }
 
     const emailExist = await this.curatorModel.findBy('email', curatorData.email);
-
-    if (emailExist && (Number(curatorData.id) !== emailExist.id)) {
+    if (emailExist && (Number(curatorData.id) !== emailExist.id))
       return { success: false, data: new BusinessException('E-mail já registrado') };
-    }
 
     try {
       await this.uow.startTransaction();
 
-      const attCurator = {
-        ...curatorData,
-      };
-
-      curator.merge(attCurator);
+      curator.merge(curatorData);
 
       await curator.save(this.uow.transaction);
 
