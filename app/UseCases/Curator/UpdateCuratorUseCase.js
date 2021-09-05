@@ -1,10 +1,6 @@
 const NotFoundException = use('App/Exceptions/NotFoundException');
 const BusinessException = use('App/Exceptions/BusinessException');
 
-const { eventLogTypes } = use('App/Models/Enums/EventsLogs');
-
-const Hash = use('Hash');
-
 class UpdateCuratorUseCase {
   static get inject() {
     return [
@@ -38,23 +34,11 @@ class UpdateCuratorUseCase {
 
       const attCurator = {
         ...curatorData,
-        ...curatorData.password && {
-          password: await Hash.make(curatorData.password),
-        },
       };
 
       curator.merge(attCurator);
 
       await curator.save(this.uow.transaction);
-
-      await this.curatorEventsLogModel.create(
-        {
-          event_type: eventLogTypes.update,
-          data: curator.toJSON(),
-          curator_id: curator.id,
-        },
-        this.uow.transaction,
-      );
 
       await this.uow.commitTransaction();
 
