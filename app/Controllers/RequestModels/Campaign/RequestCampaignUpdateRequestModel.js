@@ -1,5 +1,6 @@
 class RequestCampaignUpdateRequestModel {
   constructor(requestCampaignUpdateRequestModel) {
+    this.id = requestCampaignUpdateRequestModel.campaign_id;
     this.title = requestCampaignUpdateRequestModel.title;
     this.description = requestCampaignUpdateRequestModel.description;
     this.address = requestCampaignUpdateRequestModel.address;
@@ -12,7 +13,8 @@ class RequestCampaignUpdateRequestModel {
     this.address_latitude = requestCampaignUpdateRequestModel.address_latitude;
     this.address_longitude = requestCampaignUpdateRequestModel.address_longitude;
     this.institution_id = requestCampaignUpdateRequestModel.id;
-    this.id = requestCampaignUpdateRequestModel.campaign_id;
+    this.file = requestCampaignUpdateRequestModel.file;
+    this.tags = requestCampaignUpdateRequestModel.tags;
   }
 }
 

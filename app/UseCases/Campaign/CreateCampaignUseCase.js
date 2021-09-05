@@ -1,13 +1,15 @@
 const { campaignStatus } = use('App/Models/Enums/Campaign');
-
+const { institutionStatus } = use('App/Models/Enums/Institution');
 const { eventLogTypes } = use('App/Models/Enums/EventsLogs');
 
+const Config = use('Config');
+const UploadHelper = use('App/Helpers/Upload');
 const SlugHelper = use('App/Helpers/Slug');
 
 const NotFoundException = use('App/Exceptions/NotFoundException');
-const UploadHelper = use('App/Helpers/Upload');
 const GenericException = use('App/Exceptions/GenericException');
-const Config = use('Config');
+const BusinessException = use('App/Exceptions/BusinessException');
+
 class CreateCampaignUseCase {
   // Injeta dependências no construtor
   static get inject() {
@@ -30,19 +32,21 @@ class CreateCampaignUseCase {
   }
 
   async execute({ file, tags, ...campaignData }) {
-    // Verifica se a instituição onde a campanha será criada existe
-    const institution = await this.institutionModel.find(campaignData.institution_id);
-    if (!institution) {
-      return { success: false, data: new NotFoundException('Instituição não existente') };
-    }
-
-    const slug = SlugHelper.createSlug({ text: `${campaignData.title} ${institution.name}` });
-
     const photoDateTime = Date.now();
 
     // Inicia a transaction que gerencia a criação de campanha
     try {
       await this.uow.startTransaction();
+
+      // Verifica se a instituição onde a campanha será criada existe
+      const institution = await this.institutionModel.find(campaignData.institution_id);
+      if (!institution)
+        return { success: false, data: new NotFoundException('Instituição não existente') };
+
+      if (institution.status !== institutionStatus.approved)
+        return { success: false, data: new BusinessException('Instituição precisa estar aprovada para realizar a criação de campanhas') };
+
+      const slug = SlugHelper.createSlug({ text: `${campaignData.title} ${institution.name}` });
 
       const logoUploadResult = await this.saveLogo(file, photoDateTime);
       if (!logoUploadResult.success)
@@ -58,7 +62,7 @@ class CreateCampaignUseCase {
         this.uow.transaction,
       );
 
-      // campaign.tags().createMany(tags.map(tag => ({ tag_id: tag })));
+      await campaign.tags().createMany(tags.map(tag => ({ tag_id: tag })), this.uow.transaction);
 
       await this.campaignEventsLogModel.create(
         {

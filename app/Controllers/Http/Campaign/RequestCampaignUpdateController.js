@@ -20,7 +20,7 @@ class RequestCampaignUpdateController extends BaseController {
 
     const result = await this.useCase.execute(campaignData);
     if (result.success) {
-      return ok(result);
+      return ok(result.data);
     }
 
     return handleError(result.data);
