@@ -14,9 +14,9 @@ class GetInstitutionsToAuditController extends BaseController {
   }
 
   async controllerOperation(request) {
-    const { page } = request;
+    const { page = 1, name = null, status = null } = request;
 
-    const result = await this.useCase.execute(page);
+    const result = await this.useCase.execute(page, name, status);
 
     return ok(result);
   }

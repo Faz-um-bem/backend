@@ -8,9 +8,20 @@ class GetInstitutionsToAuditUseCase {
     this.institutionModel = institutionModel;
   }
 
-  async execute(page) {
-    const institutions = await this.institutionModel
+  async execute(page, name, status) {
+    const institutionsQuery = this.institutionModel
       .query()
+      .clone();
+
+    if (name) {
+      institutionsQuery.where('name', 'like', `%${name}%`);
+    }
+
+    if (status) {
+      institutionsQuery.where('status', status);
+    }
+
+    const institutions = await institutionsQuery
       .with('event_logs', (qb) => {
         qb.where({ status: eventLogStatus.underReview });
       })
