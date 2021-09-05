@@ -1,7 +1,7 @@
 class RequestInstitutionUpdateRequestModel {
   constructor(requestInstitutionUpdateRequestData) {
+    this.id = requestInstitutionUpdateRequestData.id;
     this.email = requestInstitutionUpdateRequestData.email;
-    this.password = requestInstitutionUpdateRequestData.password;
     this.name = requestInstitutionUpdateRequestData.name;
     this.corporate_name = requestInstitutionUpdateRequestData.corporate_name;
     this.cnpj = requestInstitutionUpdateRequestData.cnpj;
@@ -18,8 +18,7 @@ class RequestInstitutionUpdateRequestModel {
     this.main_phone = requestInstitutionUpdateRequestData.main_phone;
     this.secondary_phone = requestInstitutionUpdateRequestData.secondary_phone;
     this.whatsapp_phone = requestInstitutionUpdateRequestData.whatsapp_phone;
-    this.id = requestInstitutionUpdateRequestData.id;
-    this.logo = requestInstitutionUpdateRequestData.logo;
+    this.file = requestInstitutionUpdateRequestData.file;
   }
 }
 

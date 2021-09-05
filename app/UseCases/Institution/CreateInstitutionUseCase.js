@@ -31,8 +31,6 @@ class CreateInstitutionUseCase {
   }
 
   async execute({ file, ...institutionData }) {
-    const institutionSlug = SlugHelper.createSlug({ text: institutionData.name });
-
     const photoDateTime = Date.now();
 
     try {
@@ -41,6 +39,8 @@ class CreateInstitutionUseCase {
       const logoUploadResult = await this.saveLogo(file, photoDateTime);
       if (!logoUploadResult.success)
         return logoUploadResult;
+
+      const institutionSlug = SlugHelper.createSlug({ text: institutionData.name });
 
       const institution = await this.institutionModel.create(
         {

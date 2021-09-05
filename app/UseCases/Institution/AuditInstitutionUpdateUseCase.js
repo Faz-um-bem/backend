@@ -1,4 +1,5 @@
-const { eventLogStatus } = use('App/Models/Enums/EventsLogs');
+const { eventLogStatus, eventLogTypes } = use('App/Models/Enums/EventsLogs');
+const { institutionStatus } = use('App/Models/Enums/Institution');
 
 const SlugHelper = use('App/Helpers/Slug');
 
@@ -18,21 +19,23 @@ class AuditInstitutionUpdateUseCase {
   }
 
   async execute(requestData) {
-    const institutionEventLog = await this.institutionEventsLogModel
-      .query()
-      .where({
-        status: 2,
-        event_type: 1,
-        institution_id: requestData.id,
-      })
-      .first();
-
-    if (!institutionEventLog) {
-      return { success: false, data: new NotFoundException('Não há solicitação de atualização') };
-    }
-
     try {
       await this.uow.startTransaction();
+
+      const institutionEventLog = await this.institutionEventsLogModel
+        .query()
+        .where({
+          status: eventLogStatus.underReview,
+          event_type: eventLogTypes.update,
+          institution_id: requestData.id,
+        })
+        .first();
+      if (!institutionEventLog)
+        return { success: false, data: new NotFoundException('Solicitação de atualização não encontrada') };
+
+      const institution = await this.institutionModel.find(requestData.id);
+      if (!institution)
+        return { success: false, data: new NotFoundException('Instituição não encontrada') };
 
       if (requestData.approved) {
         institutionEventLog.merge({
@@ -40,14 +43,14 @@ class AuditInstitutionUpdateUseCase {
           curator_review: requestData.curator_review,
           curator_id: requestData.curator_id,
         });
-        await institutionEventLog.save(this.uow.transaction);
 
-        const institution = await this.institutionModel.find(requestData.id);
+        await institutionEventLog.save(this.uow.transaction);
 
         institution.merge({
           ...institutionEventLog.data,
           ...institutionEventLog.data.name
           && { slug: SlugHelper.createSlug({ text: institutionEventLog.data.name }) },
+          status: institutionStatus.approved,
         });
 
         await institution.save(this.uow.transaction);
@@ -62,7 +65,16 @@ class AuditInstitutionUpdateUseCase {
         curator_review: requestData.curator_review,
         curator_id: requestData.curator_id,
       });
+
       await institutionEventLog.save(this.uow.transaction);
+
+      if (institution.status === institutionStatus.underReview) {
+        institution.merge({
+          status: institutionStatus.refused,
+        });
+
+        await institution.save(this.uow.transaction);
+      }
 
       await this.uow.commitTransaction();
 

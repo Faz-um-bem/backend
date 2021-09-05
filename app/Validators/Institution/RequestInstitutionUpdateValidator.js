@@ -4,14 +4,13 @@ class RequestInstitutionUpdateValidator extends BaseValidator {
   get rules() {
     return {
       email: 'required|email|string',
-      password: 'min:6|confirmed|string',
       name: 'required|string',
       corporate_name: 'required|string',
       cnpj: 'required|length:14|string|cnpj',
       description: 'required|string',
       address: 'required|string',
       address_number: 'required|string',
-      address_complement: 'required|string',
+      address_complement: 'string',
       neighborhood: 'required|string',
       postal_code: 'required|length:8|string|onlyDigits',
       city: 'required|string',
@@ -21,6 +20,10 @@ class RequestInstitutionUpdateValidator extends BaseValidator {
       main_phone: 'required|string|length:11|onlyDigits',
       secondary_phone: 'string|length:11|onlyDigits',
       whatsapp_phone: 'string|length:11|onlyDigits',
+      'file.value': 'string',
+      'file.size': 'requiredIf:file.value|integer',
+      'file.type': 'requiredIf:file.value|string',
+      'file.name': 'requiredIf:file.value|string',
     };
   }
 
@@ -29,9 +32,6 @@ class RequestInstitutionUpdateValidator extends BaseValidator {
       'email.required': 'E-mail é obrigatório',
       'email.email': 'E-mail inválido',
       'email.unique': 'E-mail já registrado',
-
-      'password.min': 'Senha precisa ter no mínimo {{argument.0}} caractéres',
-      'password.confirmed': 'Senha e confirmação de senha não são iguais',
 
       'name.required': 'Nome é obrigatório',
 
@@ -47,8 +47,6 @@ class RequestInstitutionUpdateValidator extends BaseValidator {
       'address.required': 'Endereço é obrigatório',
 
       'address_number.required': 'Número de endereço é obrigatório',
-
-      'address_complement.required': 'Complemento de endereço é obrigatório',
 
       'neighborhood.required': 'Bairro é obrigatório',
 
@@ -76,6 +74,13 @@ class RequestInstitutionUpdateValidator extends BaseValidator {
       'whatsapp_phone.required': 'Telefone do What\'sApp é obrigatório',
       'whatsapp_phone.length': 'Telefone do What\'sApp deve ter {{argument.0}} dígitos',
       'whatsapp_phone.onlyDigits': 'Apenas dígitos são aceitos no número de telefone do What\'sApp',
+
+      'file.size.requiredIf': 'Necessário informar o tamanho do arquivo',
+      'file.size.integer': 'Tamanho do arquivo deve ser um número inteiro',
+
+      'file.name.requiredIf': 'Necessário informar o nome do arquivo',
+
+      'file.type.requiredIf': 'Necessário informar o tipo do arquivo',
     };
   }
 }

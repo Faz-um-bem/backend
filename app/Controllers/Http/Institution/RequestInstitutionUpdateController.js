@@ -20,7 +20,7 @@ class RequestInstitutionUpdateController extends BaseController {
 
     const result = await this.useCase.execute(institutionData);
     if (result.success) {
-      return ok(result);
+      return ok(result.data);
     }
 
     return handleError(result.data);
