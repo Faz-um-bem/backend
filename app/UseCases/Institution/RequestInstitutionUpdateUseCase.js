@@ -59,22 +59,23 @@ class RequestInstitutionUpdateUseCase {
         institutionData,
         fieldsToUpdate,
       );
-      if (!fieldsSettedResult.success)
+      if (!fieldsSettedResult.success && !file)
         return fieldsSettedResult;
 
-      await this.institutionEventsLogModel.create(
-        {
-          event_type: eventLogTypes.update,
-          data: JSON.stringify(fieldsToUpdate),
-          institution_id: institution.id,
-        },
-        this.uow.transaction,
-      );
+      if (fieldsSettedResult.success)
+        await this.institutionEventsLogModel.create(
+          {
+            event_type: eventLogTypes.update,
+            data: JSON.stringify(fieldsToUpdate),
+            institution_id: institution.id,
+          },
+          this.uow.transaction,
+        );
 
       // Logo da instituição é atualizado direto, sem passar por auditoria de curador
       await this.saveLogo(file, photoDateTime, institution, this.uow.transaction);
 
-      if (institution.status === institutionStatus.refused) {
+      if (institution.status === institutionStatus.refused && fieldsSettedResult.success) {
         institution.merge({
           status: institutionStatus.underReview,
         });
