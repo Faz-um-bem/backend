@@ -7,6 +7,9 @@ class CuratorRoutes extends BaseRoutes {
       .validator('Curator/CreateCuratorValidator');
 
     router
+      .get('/curators/audit', `${this.controllersPath}/Curator/GetCuratorsToAuditController.handle`);
+
+    router
       .put('/curators/:id/audit', `${this.controllersPath}/Curator/AuditCuratorController.handle`);
 
     router
