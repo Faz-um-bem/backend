@@ -1,4 +1,4 @@
-class GetCampaignsToAuditUseCase {
+class GetCampaignLogUseCase {
   static get inject() {
     return ['App/Models/CampaignEventsLog'];
   }
@@ -24,4 +24,4 @@ class GetCampaignsToAuditUseCase {
   }
 }
 
-module.exports = GetCampaignsToAuditUseCase;
+module.exports = GetCampaignLogUseCase;
