@@ -25,6 +25,8 @@ class InstitutionRoutes extends BaseRoutes {
 
     router
       .get('/institutions', `${this.controllersPath}/Institution/GetInstitutionsController.handle`);
+    router
+      .get('/institution/:id/log', `${this.controllersPath}/Institution/GetInstitutionLogController.handle`);
 
     router
       .delete('/institutions/:id', `${this.controllersPath}/Institution/DeleteInstitutionController.handle`);
