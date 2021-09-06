@@ -17,6 +17,7 @@ class CampaignRoutes extends BaseRoutes {
     router.get('/institutions/:id/campaigns', `${this.controllersPath}/Campaign/GetCampaignsByInstitutionController.handle`);
     router.get('campaign/:slug', `${this.controllersPath}/Campaign/GetCampaignBySlugController.handle`);
     router.get('/campaigns/audit', `${this.controllersPath}/Campaign/GetCampaignsToAuditController.handle`);
+    router.get('/campaign/:id/log', `${this.controllersPath}/Campaign/GetCampaignLogController.handle`);
 
     router.delete('/institutions/:id/campaign/:campaign_id', `${this.controllersPath}/Campaign/DeleteCampaignController.handle`);
 
