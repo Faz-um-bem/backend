@@ -1,6 +1,7 @@
 const eventLogTypes = Object.freeze({
   create: 0,
   update: 1,
+  requestApproval: 2,
 });
 
 const eventLogStatus = Object.freeze({
