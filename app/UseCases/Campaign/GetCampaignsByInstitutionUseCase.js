@@ -7,14 +7,23 @@ class GetCampaignsByInstitutionUseCase {
     this.campaignModel = campaignModel;
   }
 
-  async execute(institutionId) {
-    const campaigns = await this.campaignModel
+  async execute(page, institutionId, title, status) {
+    const campaignsQuery = this.campaignModel
       .query()
-      .where('institution_id', '=', institutionId)
-      .with('tags.tag')
-      .fetch();
+      .clone();
+    if (title)
+      campaignsQuery.where('title', 'like', `%${title}%`);
 
-    return { success: true, data: campaigns };
+    if (status)
+      campaignsQuery.where('status', status);
+
+    campaignsQuery.where('institution_id', institutionId);
+
+    const campaigns = await campaignsQuery
+      .with('tags.tag')
+      .paginate(page, 20);
+
+    return campaigns;
   }
 }
 

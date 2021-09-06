@@ -1,6 +1,6 @@
 const BaseControler = use('App/Controllers/Http/BaseController');
 
-const { ok, notFound } = use('App/Controllers/Http/HttpResponses');
+const { ok } = use('App/Controllers/Http/HttpResponses');
 
 class GetCampaignsByInstitutionController extends BaseControler {
   static get inject() {
@@ -14,13 +14,11 @@ class GetCampaignsByInstitutionController extends BaseControler {
   }
 
   async controllerOperation(request) {
-    const result = await this.useCase.execute(request.id);
+    const { page = 1, title = null, status = null } = request;
 
-    if (result.success) {
-      return ok(result.data);
-    }
+    const result = await this.useCase.execute(page, request.id, title, status);
 
-    return notFound(result.data.message);
+    return ok(result);
   }
 }
 
