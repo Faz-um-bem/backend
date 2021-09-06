@@ -1,3 +1,3 @@
-INSERT INTO tags (name) VALUES ('Doação de Computadores'), ('Doação de Livros'), ('Doação e Preservação de Cães e Gatos'),
-('Doação de Brinquedos'), ('Doação de Móveis'), ('Doação de Eletrodomésticos'), ('Doação de Alimentos e Higiene Pessoal'),
-('Doação de Sangue'), ('Doação de Dinheiro'), ('Doação de Roupa e Agasalhos');
+INSERT INTO tags (name) VALUES ('Computadores'), ('Livros'), ('Pets'),
+('Brinquedos'), ('Móveis'), ('Eletrodomésticos'), ('Alimentos e Higiene Pessoal'),
+('Sangue'), ('Dinheiro'), ('Roupa e Agasalhos');

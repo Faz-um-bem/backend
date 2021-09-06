@@ -10,6 +10,9 @@ class CuratorRoutes extends BaseRoutes {
       .put('/curators/:id/audit', `${this.controllersPath}/Curator/AuditCuratorController.handle`);
 
     router
+      .post('/curators/:id/request-approval', `${this.controllersPath}/Curator/RequestApprovalController.handle`);
+
+    router
       .get('/curators/:id', `${this.controllersPath}/Curator/GetCuratorController.handle`);
 
     router

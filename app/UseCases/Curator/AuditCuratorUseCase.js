@@ -1,5 +1,5 @@
 const { curatorStatus } = use('App/Models/Enums/Curator');
-const { eventLogTypes, eventLogStatus } = use('App/Models/Enums/EventsLogs');
+const { eventLogStatus } = use('App/Models/Enums/EventsLogs');
 
 const NotFoundException = use('App/Exceptions/NotFoundException');
 
@@ -23,7 +23,6 @@ class AuditCuratorUseCase {
         .where({
           status: eventLogStatus.underReview,
           curator_id: auditCuratorData.id,
-          event_type: eventLogTypes.create,
         })
         .first();
       if (!eventLog)
